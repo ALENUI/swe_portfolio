@@ -1,119 +1,157 @@
 /**
  * Single source of truth for the portfolio's content and SEO metadata.
- * Everything here is used both by the React components and by the
- * build-time prerender (page <head>, JSON-LD, sitemap, robots.txt).
+ * Used by the React components and by the build-time prerender
+ * (page <head>, JSON-LD, sitemap, robots.txt).
+ *
+ * Sections with no entries (experience, projects) are hidden automatically,
+ * and removed from the navigation.
  */
 
 export interface Job {
   company: string;
+  companyLocation?: string;
   role: string;
-  start: string;
+  start: string; // 'YYYY-MM'
   end: string | null; // null = current position
-  description: string;
-  achievements: string[];
+  highlights: string[];
+  tech?: string[];
+}
+
+export interface Degree {
+  degree: string;
+  school: string;
+  start: string;
+  end: string;
+}
+
+export interface Project {
+  name: string;
+  summary: string;
   tech: string[];
+  url?: string; // live site
+  repo?: string; // source code
+}
+
+export interface Social {
+  label: 'GitHub' | 'LinkedIn' | 'Instagram';
+  handle: string;
+  url: string;
 }
 
 export const profile = {
-  name: 'ALENUI',
-  role: 'Computer Engineer',
-  jobTitle: 'Senior Software Engineer',
-  tagline: 'Building scalable systems and elegant solutions for complex problems',
+  name: 'Alenui Rovis Mbah',
+  shortName: 'ALENUI',
+  alternateNames: ['Alenui Rovis', 'ALENUI'],
+  jobTitle: 'Computer Engineer',
+  headline: 'Front-end developer and UI/UX designer',
+  intro:
+    'I build responsive web apps with React and TypeScript, and lead UI/UX and brand design at Nexura Innovations.',
   // ~150 characters: what search engines show under the title.
   description:
-    'ALENUI is a computer engineer and senior software engineer building scalable cloud systems, microservices and data platforms with Go, TypeScript and Kubernetes.',
-  keywords: [
-    'ALENUI',
-    'software engineer',
-    'computer engineer',
-    'full stack developer',
-    'cloud infrastructure',
-    'microservices',
-    'Kubernetes',
-    'Go',
-    'TypeScript',
-    'React',
-    'portfolio',
+    'Alenui Rovis Mbah is a computer engineer in Bamenda, Cameroon: a front-end developer working in React and TypeScript, and a UI/UX and brand designer.',
+  about: [
+    "I'm a computer engineer based in Bamenda, Cameroon. Most of my work is on the front end: building responsive web apps in React and TypeScript, wiring them up to APIs, and designing the interfaces in Figma before they get built.",
+    'I studied computer science at the College of Technology, University of Bamenda, then did a master’s in data science, which is where my interest in machine learning comes from. Away from the keyboard I play guitar.',
   ],
-  location: { city: 'San Francisco', region: 'CA', country: 'US' },
+  location: { city: 'Bamenda', region: 'North West', country: 'Cameroon', countryCode: 'CM' },
   availableForWork: true,
 
-  // Default public URL. The deploy workflow overrides it with the real
-  // GitHub Pages / custom domain URL via the SITE_URL environment variable.
+  // Replace with your custom domain once it is set up (the deploy workflow
+  // also detects it automatically from the GitHub Pages settings).
   siteUrl: 'https://alenui.github.io/swe_portfolio',
   locale: 'en_US',
 
-  email: 'alenui@engineer.dev',
+  email: 'rovisalenui@gmail.com',
   socials: [
-    { label: 'GitHub', handle: 'github.com/ALENUI', url: 'https://github.com/ALENUI' },
-    { label: 'LinkedIn', handle: 'linkedin.com/in/alenui', url: 'https://www.linkedin.com/in/alenui' },
-  ],
+    { label: 'GitHub', handle: 'ALENUI', url: 'https://github.com/ALENUI' },
+    { label: 'LinkedIn', handle: 'Alenui Rovis', url: 'https://www.linkedin.com/in/alenui-rovis-23569727b/' },
+    { label: 'Instagram', handle: '@alenui_graphics', url: 'https://www.instagram.com/alenui_graphics/' },
+  ] as Social[],
 
-  stats: [
-    { value: '10+', label: 'Years Experience' },
-    { value: '48+', label: 'Projects Delivered' },
-    { value: '25+', label: 'Technologies' },
-  ],
-
+  // Most recent first.
   experience: [
     {
-      company: 'TechCorp Innovation Labs',
-      role: 'Senior Software Engineer',
-      start: '2021',
+      company: 'Galsie',
+      companyLocation: 'Lebanon',
+      role: 'Front-End Developer (Contract)',
+      start: '2025-08',
       end: null,
-      description:
-        'Leading cloud infrastructure initiatives and architecting scalable microservices platforms.',
-      achievements: [
-        'Architected the company-wide microservices platform',
-        'Led the migration of production workloads to Kubernetes',
-        'Reduced deployment time by 70% through CI/CD optimization',
-        'Mentored 5 junior developers',
+      highlights: [
+        'Building the views of the Galsite web application in HTML, CSS and TypeScript',
+        'Implementing the view models in TypeScript',
       ],
-      tech: ['Kubernetes', 'Go', 'React', 'PostgreSQL', 'AWS'],
+      tech: ['TypeScript', 'HTML', 'CSS'],
     },
     {
-      company: 'DataStream Solutions',
-      role: 'Full Stack Engineer',
-      start: '2018',
-      end: '2021',
-      description:
-        'Developed real-time data processing pipelines and dashboards for data visualization and analytics.',
-      achievements: [
-        'Built a real-time pipeline processing 10M+ events daily',
-        'Created the customer-facing analytics dashboard',
-        'Improved query performance by 300%',
+      company: 'Nexura Innovations Ltd',
+      companyLocation: 'Cameroon',
+      role: 'UI/UX and Brand Design Lead',
+      start: '2025-07',
+      end: null,
+      highlights: [
+        'Lead and supervise the design team',
+        'Shape the visual direction and concepts for client projects',
+        'Design brand identities, and UI for web and mobile apps',
       ],
-      tech: ['Python', 'Node.js', 'Redis', 'MongoDB', 'Docker'],
+      tech: ['Figma', 'UI/UX', 'Branding'],
     },
     {
-      company: 'StartupVenture Inc',
-      role: 'Software Developer',
-      start: '2016',
-      end: '2018',
-      description: 'Core team member building the MVP from scratch.',
-      achievements: [
-        'Implemented authentication and user management',
-        'Integrated payment processing',
-        'Scaled the platform to 50K+ users',
+      company: 'DigitalSphere Inc.',
+      companyLocation: 'Cameroon',
+      role: 'Front-End Developer',
+      start: '2024-01',
+      end: null,
+      highlights: [
+        'Build responsive, dynamic web interfaces in React',
+        'Worked on more than two dozen projects, from first concept to launch',
+        'Debug and profile front-end code to improve performance',
       ],
-      tech: ['Ruby on Rails', 'Vue.js', 'MySQL', 'Heroku'],
+      tech: ['React', 'JavaScript', 'TypeScript'],
     },
-  ] satisfies Job[],
+    {
+      company: 'AFRIITECH',
+      companyLocation: 'Bamenda, Cameroon',
+      role: 'Front-End Developer Intern',
+      start: '2022-07',
+      end: '2022-08',
+      highlights: [
+        'Designed and built interactive web components with PHP and JavaScript',
+        'Learned UI/UX design principles in Figma',
+      ],
+      tech: ['PHP', 'JavaScript', 'Figma'],
+    },
+  ] as Job[],
 
-  philosophy: [
-    "I believe in writing code that's not just functional, but elegant and maintainable. Every line should serve a purpose, and every system should be designed with scalability and resilience in mind.",
-    'My approach combines deep technical expertise with a strong focus on collaboration. The best solutions emerge when engineers work together towards a shared vision.',
-    'Continuous learning is at the core of my practice. I stay at the forefront through experimentation, open-source contributions, and knowledge sharing.',
-  ],
+  education: [
+    {
+      degree: 'Master of Technology in Computer Science (Data Science)',
+      school: 'College of Technology, University of Bamenda',
+      start: '2023',
+      end: '2025',
+    },
+    {
+      degree: 'Bachelor of Technology in Computer Science',
+      school: 'College of Technology, University of Bamenda',
+      start: '2020',
+      end: '2023',
+    },
+  ] as Degree[],
+
+  // TODO: add 2–4 projects you're proud of (with links). The section is hidden while empty.
+  projects: [] as Project[],
 
   skills: {
-    Languages: ['JavaScript', 'TypeScript', 'Python', 'Go', 'Java', 'Ruby'],
-    Frontend: ['React', 'Vue.js', 'Next.js', 'Tailwind CSS', 'Redux'],
-    Backend: ['Node.js', 'Django', 'Flask', 'Express', 'FastAPI'],
-    Databases: ['PostgreSQL', 'MongoDB', 'Redis', 'Elasticsearch'],
-    DevOps: ['Docker', 'Kubernetes', 'AWS', 'GCP', 'Terraform'],
-    Tools: ['Git', 'Linux', 'Nginx', 'Kafka', 'Prometheus'],
+    Languages: ['TypeScript', 'JavaScript', 'PHP', 'Python', 'HTML', 'CSS'],
+    'Frameworks & tools': ['React', 'Tailwind CSS', 'REST APIs', 'Git', 'Vite'],
+    Design: ['Figma', 'UI/UX design', 'Brand identity'],
+    Spoken: ['English (native)', 'French (learning)'],
   } as Record<string, string[]>,
 };
 
-export const formatPeriod = (job: Job) => `${job.start} – ${job.end ?? 'Present'}`;
+const formatMonth = (value: string) => {
+  const [year, month] = value.split('-');
+  if (!month) return year;
+  return new Date(Number(year), Number(month) - 1).toLocaleString('en-US', { month: 'short', year: 'numeric' });
+};
+
+export const formatPeriod = (job: Job) => `${formatMonth(job.start)} – ${job.end ? formatMonth(job.end) : 'Present'}`;

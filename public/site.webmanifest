@@ -1,14 +1,12 @@
 {
-  "name": "ALENUI – Computer Engineer",
-  "short_name": "ALENUI",
-  "description": "Portfolio of ALENUI, computer engineer and senior software engineer.",
+  "name": "Alenui Rovis",
+  "short_name": "Alenui Rovis",
   "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#0c0b14",
+  "display": "browser",
+  "background_color": "#fafafa",
   "theme_color": "#7c3aed",
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

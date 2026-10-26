@@ -32,3 +32,15 @@ export function watchSystemTheme() {
   media.addEventListener('change', onChange);
   return () => media.removeEventListener('change', onChange);
 }
+
+/** Current value of a color token from theme.css, e.g. themeColor('primary'). */
+export function themeColor(name: string) {
+  return getComputedStyle(document.documentElement).getPropertyValue(`--${name}`).trim();
+}
+
+/** Calls `onChange` whenever light/dark mode switches; returns an unsubscribe function. */
+export function onThemeChange(onChange: () => void) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  return () => observer.disconnect();
+}

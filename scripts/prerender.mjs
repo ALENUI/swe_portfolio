@@ -20,9 +20,8 @@ const { render, profile } = await import(pathToFileURL(path.join(ssrDir, 'entry-
 
 const siteUrl = (process.env.SITE_URL || profile.siteUrl).replace(/\/+$/, '');
 const pageUrl = `${siteUrl}/`;
-const title = `${profile.name} – ${profile.role} & ${profile.jobTitle}`;
+const title = `${profile.name} · ${profile.jobTitle}`;
 const ogImage = `${siteUrl}/og-image.png`;
-const current = profile.experience.find((job) => job.end === null);
 
 const esc = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -38,15 +37,22 @@ const jsonLd = {
       name: profile.name,
       url: pageUrl,
       image: ogImage,
-      email: `mailto:${profile.email}`,
+      alternateName: profile.alternateNames,
+      ...(profile.email && { email: `mailto:${profile.email}` }),
       jobTitle: profile.jobTitle,
       description: profile.description,
-      ...(current && { worksFor: { '@type': 'Organization', name: current.company } }),
+      worksFor: profile.experience
+        .filter((job) => job.end === null)
+        .map((job) => ({ '@type': 'Organization', name: job.company })),
+      alumniOf: [...new Set(profile.education.map((d) => d.school))].map((name) => ({ '@type': 'CollegeOrUniversity', name })),
+      hasOccupation: profile.experience
+        .filter((job) => job.end === null)
+        .map((job) => ({ '@type': 'Occupation', name: job.role })),
       address: {
         '@type': 'PostalAddress',
         addressLocality: profile.location.city,
         addressRegion: profile.location.region,
-        addressCountry: profile.location.country,
+        addressCountry: profile.location.countryCode,
       },
       knowsAbout: [...new Set(Object.values(profile.skills).flat())],
       sameAs: profile.socials.map((s) => s.url),
@@ -68,10 +74,8 @@ const head = [
   `<title>${esc(title)}</title>`,
   meta('name', 'description', profile.description),
   meta('name', 'author', profile.name),
-  meta('name', 'keywords', profile.keywords.join(', ')),
   meta('name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'),
   `<link rel="canonical" href="${esc(pageUrl)}" />`,
-  `<link rel="sitemap" type="application/xml" href="${esc(siteUrl)}/sitemap.xml" />`,
   // Open Graph (Facebook, LinkedIn, Slack, Discord, WhatsApp...)
   meta('property', 'og:type', 'profile'),
   meta('property', 'og:site_name', profile.name),
@@ -82,13 +86,13 @@ const head = [
   meta('property', 'og:image', ogImage),
   meta('property', 'og:image:width', '1200'),
   meta('property', 'og:image:height', '630'),
-  meta('property', 'og:image:alt', `${profile.name} – ${profile.role}`),
-  meta('property', 'profile:username', profile.name),
+  meta('property', 'og:image:alt', `${profile.name}, ${profile.headline.toLowerCase()}`),
   // Twitter / X
   meta('name', 'twitter:card', 'summary_large_image'),
   meta('name', 'twitter:title', title),
   meta('name', 'twitter:description', profile.description),
   meta('name', 'twitter:image', ogImage),
+  meta('name', 'twitter:image:alt', `${profile.name}, ${profile.headline.toLowerCase()}`),
   // Search engine ownership verification
   meta('name', 'google-site-verification', process.env.GOOGLE_SITE_VERIFICATION),
   meta('name', 'msvalidate.01', process.env.BING_SITE_VERIFICATION),
@@ -99,12 +103,22 @@ const head = [
   .join('\n    ');
 
 const indexPath = path.join(dist, 'index.html');
-let html = await readFile(indexPath, 'utf8');
-html = html
-  .replace(/<title>.*?<\/title>\s*/s, '')
-  .replace('<!--app-head-->', head)
-  .replace('<!--app-html-->', render());
-await writeFile(indexPath, html);
+const template = await readFile(indexPath, 'utf8');
+const withoutTitle = template.replace(/<title>.*?<\/title>\s*/s, '');
+
+await writeFile(indexPath, withoutTitle.replace('<!--app-head-->', head).replace('<!--app-html-->', render()));
+
+// GitHub Pages serves 404.html for any unknown path.
+const notFoundHead = [
+  `<title>Page not found · ${esc(profile.name)}</title>`,
+  meta('name', 'robots', 'noindex'),
+].join('\n    ');
+await writeFile(
+  path.join(dist, '404.html'),
+  withoutTitle
+    .replace('<!--app-head-->', notFoundHead)
+    .replace('<div id="root"><!--app-html-->', `<div id="root" data-page="404">${render('404')}`),
+);
 
 await writeFile(
   path.join(dist, 'robots.txt'),
@@ -118,8 +132,6 @@ await writeFile(
   <url>
     <loc>${esc(pageUrl)}</loc>
     <lastmod>${new Date().toISOString().slice(0, 10)}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
   </url>
 </urlset>
 `,

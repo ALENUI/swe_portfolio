@@ -1,79 +1,64 @@
 import { formatPeriod, profile } from '../data/profile';
-import { SectionHeading } from './SectionHeading';
+import { SectionHeading, sectionClass } from './SectionHeading';
+import { card, chip } from './styles';
 
 export function Experience() {
+  if (profile.experience.length === 0) return null;
+
   return (
-    <section id="experience" aria-labelledby="experience-title" className="py-20 md:py-32 px-5 md:px-8 relative bg-muted/30">
+    <section id="experience" aria-labelledby="experience-title" className={sectionClass}>
       <div className="max-w-4xl mx-auto">
-        <SectionHeading id="experience-title" eyebrow="Career" title="Experience" />
+        <SectionHeading id="experience-title" title="Experience" />
 
-        <div className="relative">
-          {/* Vertical timeline line */}
-          <div
-            aria-hidden="true"
-            className="absolute left-0 top-2 bottom-0 w-px bg-gradient-to-b from-primary via-accent to-primary/10"
-          />
+        <ol className="relative space-y-6 md:space-y-8 md:pl-10 md:before:absolute md:before:left-[5px] md:before:top-3 md:before:bottom-3 md:before:w-px md:before:bg-border">
+          {profile.experience.map((job) => {
+            const current = job.end === null;
+            return (
+              <li key={`${job.company}-${job.start}`} className="relative">
+                <span
+                  aria-hidden="true"
+                  className={`hidden md:block absolute -left-10 top-10 w-[11px] h-[11px] rounded-full ring-4 ring-background ${
+                    current ? 'bg-primary' : 'bg-muted-foreground/40'
+                  }`}
+                />
 
-          <ol className="space-y-8 md:space-y-12 ml-8 md:ml-12">
-            {profile.experience.map((job, index) => {
-              const current = job.end === null;
-              return (
-                <li
-                  key={job.company}
-                  className="reveal relative"
-                  style={{ '--reveal-delay': `${index * 0.1}s` } as React.CSSProperties}
-                >
-                  {/* Dot on timeline */}
-                  <span
-                    aria-hidden="true"
-                    className={`absolute top-7 md:top-9 w-3 h-3 rounded-full ${current ? 'bg-primary' : 'bg-accent'} ring-4 ring-background`}
-                    style={{ left: 'calc(-2rem - 6px)' }}
-                  />
+                <article className={card}>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2 text-sm text-muted-foreground">
+                    <time dateTime={job.start}>{formatPeriod(job)}</time>
+                    {current && <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-medium">Current</span>}
+                  </div>
 
-                  <article className="group bg-card rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md border border-border hover:border-primary/30 transition-all duration-300">
-                    <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                      <time className="text-sm text-muted-foreground" dateTime={job.start}>
-                        {formatPeriod(job)}
-                      </time>
-                      {current && (
-                        <span className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium">
-                          Current
-                        </span>
-                      )}
-                    </div>
+                  <h3 className="font-display text-xl md:text-2xl font-semibold text-foreground wrap-anywhere">{job.role}</h3>
+                  <p className="mt-1 text-base wrap-anywhere">
+                    <span className="text-accent-strong font-medium">{job.company}</span>
+                    {job.companyLocation && <span className="text-muted-foreground"> · {job.companyLocation}</span>}
+                  </p>
 
-                    <h3 className="font-display text-xl md:text-2xl lg:text-3xl font-semibold text-foreground leading-snug group-hover:text-primary transition-colors duration-300">
-                      {job.role}
-                    </h3>
-                    <p className="text-base md:text-lg text-accent-strong font-medium mt-1 mb-4">{job.company}</p>
-
-                    <p className="text-muted-foreground leading-relaxed mb-4">{job.description}</p>
-
-                    <ul className="space-y-2 mb-6">
-                      {job.achievements.map((achievement) => (
-                        <li key={achievement} className="flex items-start gap-3 text-sm md:text-base text-muted-foreground">
-                          <span aria-hidden="true" className="mt-2 w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
-                          {achievement}
+                  {job.highlights.length > 0 && (
+                    <ul className="mt-4 space-y-2">
+                      {job.highlights.map((item) => (
+                        <li key={item} className="flex gap-3 text-sm md:text-base text-muted-foreground">
+                          <span aria-hidden="true" className="mt-2.5 w-1 h-1 rounded-full bg-accent flex-shrink-0" />
+                          {item}
                         </li>
                       ))}
                     </ul>
+                  )}
 
-                    <ul aria-label="Technologies" className="flex flex-wrap gap-2">
+                  {job.tech && job.tech.length > 0 && (
+                    <ul aria-label="Technologies" className="mt-6 flex flex-wrap gap-2">
                       {job.tech.map((tech) => (
-                        <li
-                          key={tech}
-                          className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-xs md:text-sm"
-                        >
+                        <li key={tech} className={chip}>
                           {tech}
                         </li>
                       ))}
                     </ul>
-                  </article>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
+                  )}
+                </article>
+              </li>
+            );
+          })}
+        </ol>
       </div>
     </section>
   );
