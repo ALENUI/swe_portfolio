@@ -3,6 +3,23 @@
   "experienceSummary": "Since 2024 I've worked as a front-end developer and designer for teams in Cameroon and Lebanon: building responsive web apps in React and TypeScript, integrating APIs, leading UI/UX and brand design, and running social media and content.",
   "experience": [
     {
+      "company": "Galsie",
+      "companyLocation": "Lebanon",
+      "role": "Front-End Developer",
+      "type": "Full-time",
+      "start": "2025-08",
+      "end": null,
+      "highlights": [
+        "Develop the Galsite web application, building its views in HTML, CSS and TypeScript",
+        "Implement the view models in TypeScript"
+      ],
+      "tech": [
+        "TypeScript",
+        "HTML",
+        "CSS"
+      ]
+    },
+    {
       "company": "Dream Life Holdings",
       "companyUrl": "https://dreamlifeholdings.org",
       "companyLocation": "Douala, Cameroon",
@@ -24,20 +41,22 @@
       ]
     },
     {
-      "company": "Galsie",
-      "companyLocation": "Lebanon",
+      "company": "DigitalSphere Inc.",
+      "companyLocation": "Cameroon",
       "role": "Front-End Developer",
       "type": "Full-time",
-      "start": "2025-08",
+      "start": "2024-01",
       "end": null,
       "highlights": [
-        "Develop the Galsite web application, building its views in HTML, CSS and TypeScript",
-        "Implement the view models in TypeScript"
+        "Develop responsive, dynamic web interfaces in React",
+        "Contributed to more than two dozen projects, from first concept to completion",
+        "Collaborate with the team to implement scalable, efficient solutions",
+        "Debug and optimize code to improve performance"
       ],
       "tech": [
-        "TypeScript",
-        "HTML",
-        "CSS"
+        "React",
+        "JavaScript",
+        "TypeScript"
       ]
     },
     {
@@ -55,25 +74,6 @@
         "Figma",
         "UI/UX",
         "Branding"
-      ]
-    },
-    {
-      "company": "DigitalSphere Inc.",
-      "companyLocation": "Cameroon",
-      "role": "Front-End Developer",
-      "type": "Full-time",
-      "start": "2024-01",
-      "end": null,
-      "highlights": [
-        "Develop responsive, dynamic web interfaces in React",
-        "Contributed to more than two dozen projects, from first concept to completion",
-        "Collaborate with the team to implement scalable, efficient solutions",
-        "Debug and optimize code to improve performance"
-      ],
-      "tech": [
-        "React",
-        "JavaScript",
-        "TypeScript"
       ]
     },
     {
