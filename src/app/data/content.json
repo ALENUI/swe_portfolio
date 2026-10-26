@@ -96,6 +96,22 @@
   ],
   "works": [
     {
+      "title": "Grocefy: Shared Household Grocery Tracker",
+      "category": "Development",
+      "year": "2026",
+      "summary": "Grocefy is a mobile app that lets a household track the groceries and everyday items it keeps at home. When something runs low, anyone in the house can mark it and it goes straight onto a shared To-buy list, priced at what was paid last time. At the market you tick items off and enter what you actually paid. The app saves that price and suggests it next time. It works offline, syncs live between phones, and sends a notification to the people you live with.",
+      "tags": [
+        "React",
+        "TypeScript",
+        "Supabase"
+      ],
+      "image": {
+        "src": "works/grocefy-shared-household-grocery-tracker-mvp8tgfc.jpg",
+        "alt": "Grocefy homepage showing home items and current state"
+      },
+      "links": []
+    },
+    {
       "title": "Thinksy",
       "category": "Development",
       "year": "2025",
