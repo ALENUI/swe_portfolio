@@ -6,7 +6,7 @@ interface SectionHeadingProps {
 
 export function SectionHeading({ id, title, description }: SectionHeadingProps) {
   return (
-    <header className="mb-10 md:mb-14">
+    <header className="reveal mb-10 md:mb-14">
       <h2 id={id} className="font-display text-3xl md:text-4xl font-bold text-foreground">
         {title}
       </h2>

@@ -33,6 +33,7 @@ export interface Work {
   // Cover image under public/, e.g. 'works/thinksy.png' (16:9 works best).
   image?: { src: string; alt: string };
   links: { label: string; url: string }[];
+  hidden?: boolean; // kept in content.json but left off the site
 }
 
 export interface SkillGroup {
@@ -105,6 +106,7 @@ export function validateContent(content: unknown): string[] {
       if (!(WORK_CATEGORIES as readonly string[]).includes(work?.category)) errors.push(`${where}: category must be one of ${WORK_CATEGORIES.join(', ')}.`);
       if (work?.year !== undefined && (typeof work.year !== 'string' || !YEAR_PATTERN.test(work.year))) errors.push(`${where}: year must be four digits.`);
       if (work?.inProgress !== undefined && typeof work.inProgress !== 'boolean') errors.push(`${where}: "in progress" must be true or false.`);
+      if (work?.hidden !== undefined && typeof work.hidden !== 'boolean') errors.push(`${where}: "hidden" must be true or false.`);
       if (!isNonEmptyString(work?.summary)) errors.push(`${where}: summary is required.`);
       if (!Array.isArray(work?.tags) || !work.tags.every(isNonEmptyString)) errors.push(`${where}: tags must be non-empty names.`);
       if (work?.image !== undefined) {

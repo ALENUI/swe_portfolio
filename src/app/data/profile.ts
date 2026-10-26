@@ -72,6 +72,7 @@ export const profile = {
 
 
   ...content,
+  works: content.works.filter((w) => !w.hidden),
 
   spokenLanguages: [
     { name: 'English', level: 'native' },

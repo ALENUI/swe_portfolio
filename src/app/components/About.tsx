@@ -17,7 +17,7 @@ export function About() {
 
         <div className="grid md:grid-cols-[3fr_2fr] gap-12 md:gap-16">
           <div>
-            <div className="space-y-4 text-base md:text-lg text-muted-foreground leading-relaxed">
+            <div className="reveal space-y-4 text-base md:text-lg text-muted-foreground leading-relaxed">
               {profile.about.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -28,7 +28,7 @@ export function About() {
                 <h3 className="font-display text-xl font-semibold text-foreground mt-12 mb-5">Education</h3>
                 <ul className="space-y-5">
                   {profile.education.map((d) => (
-                    <li key={d.degree}>
+                    <li key={d.degree} className="reveal">
                       <p className="font-semibold text-foreground">{d.degree}</p>
                       <p className="mt-1 text-sm text-muted-foreground">
                         {d.school} · <span className="whitespace-nowrap">{d.start} – {d.end}</span>
@@ -45,7 +45,7 @@ export function About() {
               <h3 className="font-display text-xl font-semibold text-foreground mb-5">Skills</h3>
               <dl className="space-y-5">
                 {skillGroups.map(([category, items]) => (
-                  <div key={category}>
+                  <div key={category} className="reveal">
                     <dt className="text-sm text-foreground font-semibold mb-2">{category}</dt>
                     <dd>
                       <ul className="flex flex-wrap gap-2">

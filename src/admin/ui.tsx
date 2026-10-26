@@ -1,5 +1,5 @@
 import { useId, useState, type ReactNode } from 'react';
-import { ArrowDown, ArrowUp, Pencil, Plus, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, Eye, EyeOff, Pencil, Plus, Trash2 } from 'lucide-react';
 import { buttonPrimary, buttonSecondary, card, field } from '../app/components/styles';
 
 export const smallButton =
@@ -178,10 +178,12 @@ interface ItemListProps<T> {
   addAt: 'start' | 'end';
   summary: (item: T) => { title: string; subtitle?: string };
   form: (item: T | null, done: (saved?: T) => void) => ReactNode;
+  // Optional show/hide toggle, for items that can be left off the site without deleting them.
+  visibility?: { isHidden: (item: T) => boolean; setHidden: (item: T, hidden: boolean) => T };
 }
 
-/** List with add / edit / reorder / delete; only one item is edited at a time. */
-export function ItemList<T>({ items, onChange, itemLabel, addAt, summary, form }: ItemListProps<T>) {
+/** List with add / edit / reorder / hide / delete; only one item is edited at a time. */
+export function ItemList<T>({ items, onChange, itemLabel, addAt, summary, form, visibility }: ItemListProps<T>) {
   const [editing, setEditing] = useState<number | 'new' | null>(null);
 
   const move = (from: number, to: number) => {
@@ -224,16 +226,38 @@ export function ItemList<T>({ items, onChange, itemLabel, addAt, summary, form }
         {items.map((item, i) => {
           if (editing === i) return <li key={i}>{form(item, finishEdit(i))}</li>;
           const { title, subtitle } = summary(item);
+          const hidden = visibility?.isHidden(item) ?? false;
           return (
-            <li key={i} className={`${card} !p-4 md:!p-5 flex flex-wrap items-center gap-3`}>
-              <div className="flex-1 min-w-48">
-                <p className="font-semibold text-foreground wrap-anywhere">{title}</p>
+            <li key={i} className={`${card} !p-4 md:!p-5 flex flex-wrap items-center gap-3 ${hidden ? 'border-dashed' : ''}`}>
+              <div className={`flex-1 min-w-48 ${hidden ? 'opacity-60' : ''}`}>
+                <p className="font-semibold text-foreground wrap-anywhere">
+                  {title}
+                  {hidden && (
+                    <span className="ml-2 align-middle px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">
+                      Hidden
+                    </span>
+                  )}
+                </p>
                 {subtitle && <p className="text-sm text-muted-foreground wrap-anywhere">{subtitle}</p>}
               </div>
               <div className="flex flex-wrap gap-2">
                 <button type="button" className={smallButton} disabled={editing !== null} onClick={() => setEditing(i)}>
                   <Pencil size={14} aria-hidden="true" /> Edit
                 </button>
+                {visibility && (
+                  <button
+                    type="button"
+                    className={smallButton}
+                    disabled={editing !== null}
+                    aria-pressed={hidden}
+                    onClick={() => onChange(items.map((it, j) => (j === i ? visibility.setHidden(it, !hidden) : it)))}
+                    aria-label={`${hidden ? 'Show' : 'Hide'} "${title}" on the site`}
+                    title={hidden ? 'Hidden from the site. Click to show it.' : 'Shown on the site. Click to hide it.'}
+                  >
+                    {hidden ? <EyeOff size={14} aria-hidden="true" /> : <Eye size={14} aria-hidden="true" />}
+                    {hidden ? 'Show' : 'Hide'}
+                  </button>
+                )}
                 <button
                   type="button"
                   className={smallButton}

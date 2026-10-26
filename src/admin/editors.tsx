@@ -191,6 +191,7 @@ function WorkForm({
       tags: tagList,
       ...(image && { image: { src: image.src, alt: image.alt.trim() } }),
       links: parsedLinks,
+      ...(work?.hidden && { hidden: true }),
     };
     const problems = itemErrors({ works: [saved] }).map(capitalize);
     setErrors(problems);
@@ -288,6 +289,10 @@ export function WorksEditor({
       form={(work, done) => (
         <WorkForm work={work} done={done} pendingImages={pendingImages} addPendingImage={addPendingImage} />
       )}
+      visibility={{
+        isHidden: (w) => w.hidden === true,
+        setHidden: ({ hidden: _, ...w }, hidden) => (hidden ? { ...w, hidden: true } : w),
+      }}
     />
   );
 }

@@ -153,7 +153,7 @@ export function Contact() {
         <div className={FORM_ENDPOINT ? 'grid md:grid-cols-2 gap-12 md:gap-16 [&>*]:min-w-0' : ''}>
           <div>
             {profile.email && (
-              <div className="mb-10">
+              <div className="reveal mb-10">
                 <a
                   href={`mailto:${profile.email}`}
                   className="inline-flex items-center gap-3 font-display text-2xl md:text-3xl font-semibold text-foreground hover:text-primary transition-colors break-all"
@@ -171,7 +171,7 @@ export function Contact() {
             )}
 
             {profile.socials.length > 0 && (
-              <ul className="divide-y divide-border border-y border-border">
+              <ul className="reveal divide-y divide-border border-y border-border">
                 {profile.socials.map((social) => (
                   <li key={social.label}>
                     <a

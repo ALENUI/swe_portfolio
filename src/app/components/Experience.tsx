@@ -14,7 +14,7 @@ export function Experience() {
           {profile.experience.map((job) => {
             const current = job.end === null;
             return (
-              <li key={`${job.company}-${job.start}`} className="relative">
+              <li key={`${job.company}-${job.start}`} className="reveal relative">
                 <span
                   aria-hidden="true"
                   className={`hidden md:block absolute -left-10 top-10 w-[11px] h-[11px] rounded-full ring-4 ring-background ${

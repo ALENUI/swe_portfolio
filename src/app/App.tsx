@@ -8,6 +8,7 @@ import { Footer } from './components/Footer';
 import { Navigation, type NavSection } from './components/Navigation';
 import { Particles } from './components/particles/Particles';
 import { profile } from './data/profile';
+import { enableSmoothScroll } from './smoothScroll';
 import { watchSystemTheme } from './theme';
 
 // Only link to sections that actually render.
@@ -22,6 +23,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState<string>();
 
   useEffect(() => watchSystemTheme(), []);
+  useEffect(() => enableSmoothScroll(), []);
 
   // Highlight the section that crosses the middle of the viewport.
   useEffect(() => {

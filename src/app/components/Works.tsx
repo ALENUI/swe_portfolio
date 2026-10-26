@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { profile, type WorkCategory } from '../data/profile';
+import { profile, type Work, type WorkCategory } from '../data/profile';
 import { SectionHeading, sectionClass } from './SectionHeading';
 import { card, chip } from './styles';
+import { WorkCover, WorkPreview } from './WorkPreview';
 
 type Filter = 'All' | WorkCategory;
 
@@ -15,6 +16,8 @@ const filterButton = (active: boolean) =>
 
 export function Works() {
   const [filter, setFilter] = useState<Filter>('All');
+  const [preview, setPreview] = useState<{ work: Work; via: 'hover' | 'click' } | null>(null);
+  const openPreview = (work: Work, via: 'hover' | 'click') => setPreview({ work, via });
   if (profile.works.length === 0) return null;
 
   const categories = [...new Set(profile.works.map((w) => w.category))];
@@ -43,18 +46,8 @@ export function Works() {
 
         <ul className="grid md:grid-cols-2 2xl:grid-cols-3 gap-6">
           {shown.map((work) => (
-            <li key={work.title} className={`${card} min-w-0 flex flex-col`}>
-              {work.image && (
-                <img
-                  src={`${import.meta.env.BASE_URL}${work.image.src}`}
-                  alt={work.image.alt}
-                  loading="lazy"
-                  decoding="async"
-                  width={1280}
-                  height={720}
-                  className="-mt-2 mb-6 w-full aspect-video object-cover rounded-xl border border-border bg-muted"
-                />
-              )}
+            <li key={work.title} className={`${card} reveal min-w-0 flex flex-col`}>
+              {work.image && <WorkCover work={work} onOpen={openPreview} />}
 
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
                 <span>{work.category}</span>
@@ -103,6 +96,8 @@ export function Works() {
           ))}
         </ul>
       </div>
+
+      <WorkPreview work={preview?.work ?? null} via={preview?.via ?? 'click'} onClose={() => setPreview(null)} />
     </section>
   );
 }
