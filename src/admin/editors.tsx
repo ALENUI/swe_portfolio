@@ -119,7 +119,9 @@ export interface PendingImage {
   previewUrl: string;
 }
 
-const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
+const MAX_IMAGE_BYTES = 2 * 1024 * 1024; // after resizing
+const MAX_UPLOAD_BYTES = 20 * 1024 * 1024; // what the browser will try to resize
+const MAX_IMAGE_WIDTH = 1600; // covers show at most ~800px wide, so this is sharp on 2x screens
 const IMAGE_TYPES: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp' };
 
 const slugify = (s: string) =>
@@ -132,7 +134,22 @@ const slugify = (s: string) =>
     .replace(/-+/g, '-')
     .slice(0, 60) || 'work';
 
-const readAsBase64 = (file: File) =>
+/** Scales screenshots and photos down to MAX_IMAGE_WIDTH so the site doesn't ship multi-megabyte covers. */
+async function shrinkImage(file: File): Promise<Blob> {
+  const bitmap = await createImageBitmap(file);
+  if (bitmap.width <= MAX_IMAGE_WIDTH) return file;
+  const canvas = document.createElement('canvas');
+  canvas.width = MAX_IMAGE_WIDTH;
+  canvas.height = Math.round((bitmap.height * MAX_IMAGE_WIDTH) / bitmap.width);
+  const ctx = canvas.getContext('2d')!;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, file.type, 0.85));
+  return blob && blob.size < file.size ? blob : file;
+}
+
+const readAsBase64 = (file: Blob) =>
   new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result).split(',')[1]);
@@ -169,9 +186,16 @@ function WorkForm({
     if (!file) return;
     const ext = IMAGE_TYPES[file.type];
     if (!ext) return setErrors(['Cover image must be a PNG, JPG or WebP file.']);
-    if (file.size > MAX_IMAGE_BYTES) return setErrors(['Cover image must be 2 MB or smaller. Export it at around 1600×900.']);
+    if (file.size > MAX_UPLOAD_BYTES) return setErrors(['That image is too large. Use one under 20 MB.']);
+    let image: Blob;
+    try {
+      image = await shrinkImage(file);
+    } catch {
+      return setErrors(["Couldn't read that image. Try exporting it again as PNG or JPG."]);
+    }
+    if (image.size > MAX_IMAGE_BYTES) return setErrors(['Cover image is still over 2 MB after resizing. Export it as JPG instead.']);
     const src = `works/${slugify(title || file.name.replace(/\.\w+$/, ''))}-${Date.now().toString(36)}.${ext}`;
-    setNewImage({ path: `public/${src}`, base64: await readAsBase64(file), previewUrl: URL.createObjectURL(file) });
+    setNewImage({ path: `public/${src}`, base64: await readAsBase64(image), previewUrl: URL.createObjectURL(image) });
     setImage({ src, alt: image?.alt ?? '' });
     setErrors([]);
   };
@@ -259,7 +283,7 @@ function WorkForm({
             hint="Describe what the image shows, for screen readers and search engines."
           />
         )}
-        <p className="text-xs text-muted-foreground">PNG, JPG or WebP, up to 2 MB, ideally 16:9. Give every development card an image, or none, so the grid stays even.</p>
+        <p className="text-xs text-muted-foreground">PNG, JPG or WebP, ideally 16:9. Large images are resized to 1600px wide before upload. Works without an image get a placeholder cover.</p>
       </div>
     </FormCard>
   );

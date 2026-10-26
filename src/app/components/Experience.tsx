@@ -25,18 +25,13 @@ export function Experience() {
                 {/* On very wide screens: role and company on the left, details on the right */}
                 <article className={`${card} 2xl:grid 2xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] 2xl:gap-x-12`}>
                   <div>
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2 text-sm text-muted-foreground">
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-2 text-sm text-muted-foreground">
                       <time dateTime={job.start}>{formatPeriod(job)}</time>
                       {job.type && (
                         <>
                           <span aria-hidden="true">·</span>
                           <span>{job.type}</span>
                         </>
-                      )}
-                      {current && (
-                        <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-medium">
-                          Current
-                        </span>
                       )}
                     </div>
 

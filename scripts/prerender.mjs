@@ -55,9 +55,9 @@ const jsonLd = {
         .filter((job) => job.end === null)
         .map((job) => ({ '@type': 'Organization', name: job.company })),
       alumniOf: [...new Set(profile.education.map((d) => d.school))].map((name) => ({ '@type': 'CollegeOrUniversity', name })),
-      hasOccupation: profile.experience
-        .filter((job) => job.end === null)
-        .map((job) => ({ '@type': 'Occupation', name: job.role })),
+      hasOccupation: [...new Set(profile.experience.filter((job) => job.end === null).map((job) => job.role))].map(
+        (name) => ({ '@type': 'Occupation', name }),
+      ),
       address: {
         '@type': 'PostalAddress',
         addressLocality: profile.location.city,
@@ -97,13 +97,13 @@ const head = [
   meta('property', 'og:image', ogImage),
   meta('property', 'og:image:width', '1200'),
   meta('property', 'og:image:height', '630'),
-  meta('property', 'og:image:alt', `${profile.name}, ${profile.headline.toLowerCase()}`),
+  meta('property', 'og:image:alt', `${profile.name}, ${profile.headline.charAt(0).toLowerCase()}${profile.headline.slice(1)}`),
   // Twitter / X
   meta('name', 'twitter:card', 'summary_large_image'),
   meta('name', 'twitter:title', title),
   meta('name', 'twitter:description', profile.description),
   meta('name', 'twitter:image', ogImage),
-  meta('name', 'twitter:image:alt', `${profile.name}, ${profile.headline.toLowerCase()}`),
+  meta('name', 'twitter:image:alt', `${profile.name}, ${profile.headline.charAt(0).toLowerCase()}${profile.headline.slice(1)}`),
   // Search engine ownership verification
   meta('name', 'google-site-verification', process.env.GOOGLE_SITE_VERIFICATION),
   meta('name', 'msvalidate.01', process.env.BING_SITE_VERIFICATION),

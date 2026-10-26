@@ -65,6 +65,7 @@ export function WorkCover({ work, onOpen }: { work: Work; onOpen: (work: Work, v
 /** Modal quick view of a work: large cover image plus its details. */
 export function WorkPreview({ work, via, onClose }: { work: Work | null; via: 'hover' | 'click'; onClose: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
   const entered = useRef(false);
 
   useEffect(() => {
@@ -72,6 +73,8 @@ export function WorkPreview({ work, via, onClose }: { work: Work | null; via: 'h
     if (!el || !work) return;
     entered.current = false;
     el.showModal();
+    // Focus the panel rather than the first button, so a mouse user doesn't see a focus ring on ✕.
+    panel.current?.focus();
     document.documentElement.style.overflow = 'hidden';
     return () => {
       document.documentElement.style.overflow = '';
@@ -90,10 +93,12 @@ export function WorkPreview({ work, via, onClose }: { work: Work | null; via: 'h
     >
       {work?.image && (
         <div
+          ref={panel}
+          tabIndex={-1}
           // Opened by hovering: moving the mouse off the preview closes it again.
           onPointerEnter={() => (entered.current = true)}
           onPointerLeave={(e) => via === 'hover' && e.pointerType === 'mouse' && entered.current && dialog.current?.close()}
-          className="bg-card rounded-2xl border border-border overflow-hidden"
+          className="bg-card rounded-2xl border border-border overflow-hidden outline-none"
         >
           <img
             src={imageUrl(work)}

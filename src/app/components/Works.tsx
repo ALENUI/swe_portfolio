@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Code2, Palette } from 'lucide-react';
 import { profile, type Work, type WorkCategory } from '../data/profile';
 import { SectionHeading, sectionClass } from './SectionHeading';
 import { card, chip } from './styles';
@@ -14,6 +14,20 @@ const filterButton = (active: boolean) =>
       : 'border-border text-muted-foreground hover:border-primary hover:text-primary'
   }`;
 
+function CoverPlaceholder({ category }: { category: WorkCategory }) {
+  const Icon = category === 'Design' ? Palette : Code2;
+  return (
+    <div
+      aria-hidden="true"
+      className="-mt-2 mb-6 aspect-video rounded-xl border border-border bg-gradient-to-br from-primary/10 via-muted to-accent/10 flex items-center justify-center"
+    >
+      <span className="w-14 h-14 rounded-full bg-card border border-border flex items-center justify-center text-primary">
+        <Icon size={24} />
+      </span>
+    </div>
+  );
+}
+
 export function Works() {
   const [filter, setFilter] = useState<Filter>('All');
   const [preview, setPreview] = useState<{ work: Work; via: 'hover' | 'click' } | null>(null);
@@ -22,6 +36,8 @@ export function Works() {
 
   const categories = [...new Set(profile.works.map((w) => w.category))];
   const shown = filter === 'All' ? profile.works : profile.works.filter((w) => w.category === filter);
+  // If any card has a cover, give the rest a placeholder so the cards line up.
+  const covers = shown.some((w) => w.image);
 
   return (
     <section id="work" aria-labelledby="work-title" className={sectionClass}>
@@ -47,7 +63,11 @@ export function Works() {
         <ul className="grid md:grid-cols-2 2xl:grid-cols-3 gap-6">
           {shown.map((work) => (
             <li key={work.title} className={`${card} reveal min-w-0 flex flex-col`}>
-              {work.image && <WorkCover work={work} onOpen={openPreview} />}
+              {work.image ? (
+                <WorkCover work={work} onOpen={openPreview} />
+              ) : (
+                covers && <CoverPlaceholder category={work.category} />
+              )}
 
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
                 <span>{work.category}</span>
