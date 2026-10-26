@@ -134,7 +134,6 @@
       "title": "Staff & Task Management System",
       "category": "Development",
       "year": "2025",
-      "inProgress": true,
       "summary": "A PHP and MySQL system for running a small team: an admin dashboard, staff login, creating employee and intern accounts, and assigning tasks.",
       "tags": [
         "PHP",
@@ -169,32 +168,13 @@
     {
       "group": "Programming",
       "items": [
+        "React",
         "TypeScript",
         "JavaScript",
         "PHP",
         "Python",
         "HTML",
         "CSS"
-      ]
-    },
-    {
-      "group": "Front end",
-      "items": [
-        "React",
-        "React Router",
-        "Tailwind CSS",
-        "Material UI",
-        "Vite"
-      ]
-    },
-    {
-      "group": "Back end & data",
-      "items": [
-        "MySQL",
-        "REST APIs",
-        "pandas",
-        "NumPy",
-        "Jupyter"
       ]
     },
     {
@@ -214,13 +194,6 @@
         "Content strategy",
         "Video editing",
         "CapCut"
-      ]
-    },
-    {
-      "group": "Tools",
-      "items": [
-        "Git",
-        "GitHub"
       ]
     }
   ]
