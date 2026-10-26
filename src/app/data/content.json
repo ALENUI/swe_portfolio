@@ -64,7 +64,7 @@
       "companyLocation": "Cameroon",
       "role": "UI/UX and Brand Design Lead",
       "start": "2025-07",
-      "end": null,
+      "end": "2026-04",
       "highlights": [
         "Coordinate and supervise the design team as team lead",
         "Conceptualize the visuals and ideas for projects",
@@ -146,7 +146,8 @@
           "label": "Source code",
           "url": "https://github.com/ALENUI/brandonDBMS"
         }
-      ]
+      ],
+      "hidden": true
     },
     {
       "title": "Brand & graphic design",
