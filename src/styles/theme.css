@@ -1,6 +1,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Desktop content width is 70% of the screen, capped at this size */
+  --content-max: 1280px;
   --background: #fafafa;
   --foreground: #1a1a1a;
   --card: #ffffff;

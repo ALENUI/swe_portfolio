@@ -6,6 +6,8 @@ const HOME = { lat: 5.9631 * DEG, lon: 10.1591 * DEG, label: 'Bamenda' };
 const REST_PITCH = 18 * DEG; // tilt the north pole slightly toward the viewer
 const PITCH_LIMIT = 50 * DEG;
 const AUTO_SPEED = (3 * DEG) / 1000; // radians per millisecond (3° per second)
+// Visitors who ask for reduced motion still see a gentle spin, without fling or spring-back.
+const CALM_SPEED = (1 * DEG) / 1000;
 const DRAG_SPEED = 0.006; // radians per CSS pixel dragged
 const DEPTH_BUCKETS = 6;
 
@@ -152,12 +154,13 @@ export function startGlobe(canvas: HTMLCanvasElement) {
     const dt = Math.min(time - lastTime, 50); // avoid jumps after the tab was hidden
     lastTime = time;
     if (!dragging) {
-      yaw += (velocity - AUTO_SPEED) * dt; // Earth turns west to east
-      velocity *= Math.exp(-dt / 500);
-      pitch += (REST_PITCH - pitch) * (1 - Math.exp(-dt / 1500));
+      const calm = reducedMotion.matches;
+      yaw += (velocity - (calm ? CALM_SPEED : AUTO_SPEED)) * dt; // Earth turns west to east
+      velocity = calm ? 0 : velocity * Math.exp(-dt / 500);
+      if (!calm) pitch += (REST_PITCH - pitch) * (1 - Math.exp(-dt / 1500));
     }
     draw(time);
-    frame = visible && !reducedMotion.matches ? requestAnimationFrame(tick) : 0;
+    frame = visible ? requestAnimationFrame(tick) : 0;
   };
 
   const onPointerDown = (e: PointerEvent) => {
@@ -191,18 +194,10 @@ export function startGlobe(canvas: HTMLCanvasElement) {
     if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
   };
 
-  // With reduced motion there is no loop: the globe only redraws when dragged,
-  // resized or recolored.
   const start = () => {
     if (frame || !visible) return;
     lastTime = performance.now();
-    if (reducedMotion.matches) draw(lastTime);
-    else frame = requestAnimationFrame(tick);
-  };
-  const onMotionPreferenceChange = () => {
-    cancelAnimationFrame(frame);
-    frame = 0;
-    start();
+    frame = requestAnimationFrame(tick);
   };
   let stopped = false;
 
@@ -223,7 +218,6 @@ export function startGlobe(canvas: HTMLCanvasElement) {
   canvas.addEventListener('pointercancel', onPointerUp);
   intersection.observe(canvas);
   resizeObserver.observe(canvas);
-  reducedMotion.addEventListener('change', onMotionPreferenceChange);
   resize();
   start();
   // Redraw once the label font has loaded.
@@ -232,7 +226,6 @@ export function startGlobe(canvas: HTMLCanvasElement) {
   return () => {
     stopped = true;
     cancelAnimationFrame(frame);
-    reducedMotion.removeEventListener('change', onMotionPreferenceChange);
     intersection.disconnect();
     resizeObserver.disconnect();
     stopThemeWatch();

@@ -3,14 +3,11 @@ import { ArrowUpRight, Check, Copy, Mail } from 'lucide-react';
 import { profile } from '../data/profile';
 import { SectionHeading, sectionClass } from './SectionHeading';
 import { SocialIcon } from './SocialIcon';
-import { buttonPrimary, buttonSecondary, card } from './styles';
+import { buttonPrimary, buttonSecondary, card, field as fieldClass } from './styles';
 
 // Optional form backend (e.g. https://formspree.io/f/xxxx). Without one there is
 // no form: a form that can't actually deliver a message is worse than none.
 const FORM_ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined;
-
-const fieldClass =
-  'w-full bg-background border border-border rounded-xl px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors disabled:opacity-60';
 
 function copyWithSelection(text: string) {
   const textarea = document.createElement('textarea');
@@ -142,7 +139,7 @@ export function Contact() {
 
   return (
     <section id="contact" aria-labelledby="contact-title" className={sectionClass}>
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl lg:max-w-[min(70vw,var(--content-max))] mx-auto">
         <SectionHeading
           id="contact-title"
           title="Contact"

@@ -3,11 +3,16 @@ import { SectionHeading, sectionClass } from './SectionHeading';
 import { chip } from './styles';
 
 export function About() {
-  const skillGroups = Object.entries(profile.skills).filter(([, items]) => items.length > 0);
+  const skillGroups: [string, string[]][] = profile.skills
+    .filter((g) => g.items.length > 0)
+    .map((g) => [g.group, g.items]);
+  if (profile.spokenLanguages.length > 0) {
+    skillGroups.push(['Spoken', profile.spokenLanguages.map((l) => `${l.name} (${l.level})`)]);
+  }
 
   return (
     <section id="about" aria-labelledby="about-title" className={sectionClass}>
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl lg:max-w-[min(70vw,var(--content-max))] mx-auto">
         <SectionHeading id="about-title" title="About" />
 
         <div className="grid md:grid-cols-[3fr_2fr] gap-12 md:gap-16">

@@ -14,7 +14,7 @@ export function Hero() {
       aria-label="Introduction"
       className="relative overflow-hidden px-5 md:px-8 pt-36 pb-20 md:pt-48 md:pb-28"
     >
-      <div className="relative max-w-4xl mx-auto">
+      <div className="relative max-w-4xl lg:max-w-[min(70vw,var(--content-max))] mx-auto">
         <HeroGlobe />
 
         <div className="relative md:max-w-xl">

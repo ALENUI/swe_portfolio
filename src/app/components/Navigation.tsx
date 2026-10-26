@@ -47,7 +47,7 @@ export function Navigation({ sections, activeSection, homeHref }: NavigationProp
       }`}
     >
       <nav aria-label="Main" className="px-5 md:px-8">
-        <div className="max-w-4xl mx-auto h-16 flex items-center justify-between gap-4">
+        <div className="max-w-4xl lg:max-w-[min(70vw,var(--content-max))] mx-auto h-16 flex items-center justify-between gap-4">
           <a href={homeHref} className="flex items-center gap-2 rounded-md">
             <span aria-hidden="true" className="w-2 h-2 rounded-full bg-primary" />
             <span className="font-semibold text-foreground tracking-widest uppercase text-sm">{profile.shortName}</span>
@@ -107,7 +107,7 @@ export function Navigation({ sections, activeSection, homeHref }: NavigationProp
 
       {menuOpen && (
         <div id="mobile-menu" className="md:hidden border-t border-border px-5">
-          <ul className="max-w-4xl mx-auto py-3 flex flex-col">
+          <ul className="max-w-4xl lg:max-w-[min(70vw,var(--content-max))] mx-auto py-3 flex flex-col">
             {sections.map((section) => (
               <li key={section.id}>
                 <a

@@ -1,35 +1,20 @@
 /**
- * Single source of truth for the portfolio's content and SEO metadata.
- * Used by the React components and by the build-time prerender
- * (page <head>, JSON-LD, sitemap, robots.txt).
+ * Profile details and SEO metadata. Jobs, works and skills live in content.json
+ * (editable from /admin) and are merged in below. Used by the React components
+ * and by the build-time prerender (page <head>, JSON-LD, sitemap, robots.txt).
  *
- * Sections with no entries (experience, projects) are hidden automatically,
+ * Sections with no entries (experience, works) are hidden automatically,
  * and removed from the navigation.
  */
+import { content, type Job } from './content';
 
-export interface Job {
-  company: string;
-  companyLocation?: string;
-  role: string;
-  start: string; // 'YYYY-MM'
-  end: string | null; // null = current position
-  highlights: string[];
-  tech?: string[];
-}
+export type { Job, Work, WorkCategory, SkillGroup } from './content';
 
 export interface Degree {
   degree: string;
   school: string;
   start: string;
   end: string;
-}
-
-export interface Project {
-  name: string;
-  summary: string;
-  tech: string[];
-  url?: string; // live site
-  repo?: string; // source code
 }
 
 export interface Social {
@@ -68,59 +53,6 @@ export const profile = {
     { label: 'Instagram', handle: '@alenui_graphics', url: 'https://www.instagram.com/alenui_graphics/' },
   ] as Social[],
 
-  // Most recent first.
-  experience: [
-    {
-      company: 'Galsie',
-      companyLocation: 'Lebanon',
-      role: 'Front-End Developer (Contract)',
-      start: '2025-08',
-      end: null,
-      highlights: [
-        'Building the views of the Galsite web application in HTML, CSS and TypeScript',
-        'Implementing the view models in TypeScript',
-      ],
-      tech: ['TypeScript', 'HTML', 'CSS'],
-    },
-    {
-      company: 'Nexura Innovations Ltd',
-      companyLocation: 'Cameroon',
-      role: 'UI/UX and Brand Design Lead',
-      start: '2025-07',
-      end: null,
-      highlights: [
-        'Lead and supervise the design team',
-        'Shape the visual direction and concepts for client projects',
-        'Design brand identities, and UI for web and mobile apps',
-      ],
-      tech: ['Figma', 'UI/UX', 'Branding'],
-    },
-    {
-      company: 'DigitalSphere Inc.',
-      companyLocation: 'Cameroon',
-      role: 'Front-End Developer',
-      start: '2024-01',
-      end: null,
-      highlights: [
-        'Build responsive, dynamic web interfaces in React',
-        'Worked on more than two dozen projects, from first concept to launch',
-        'Debug and profile front-end code to improve performance',
-      ],
-      tech: ['React', 'JavaScript', 'TypeScript'],
-    },
-    {
-      company: 'AFRIITECH',
-      companyLocation: 'Bamenda, Cameroon',
-      role: 'Front-End Developer Intern',
-      start: '2022-07',
-      end: '2022-08',
-      highlights: [
-        'Designed and built interactive web components with PHP and JavaScript',
-        'Learned UI/UX design principles in Figma',
-      ],
-      tech: ['PHP', 'JavaScript', 'Figma'],
-    },
-  ] as Job[],
 
   education: [
     {
@@ -137,15 +69,14 @@ export const profile = {
     },
   ] as Degree[],
 
-  // TODO: add 2–4 projects you're proud of (with links). The section is hidden while empty.
-  projects: [] as Project[],
 
-  skills: {
-    Languages: ['TypeScript', 'JavaScript', 'PHP', 'Python', 'HTML', 'CSS'],
-    'Frameworks & tools': ['React', 'Tailwind CSS', 'REST APIs', 'Git', 'Vite'],
-    Design: ['Figma', 'UI/UX design', 'Brand identity'],
-    Spoken: ['English (native)', 'French (learning)'],
-  } as Record<string, string[]>,
+
+  ...content,
+
+  spokenLanguages: [
+    { name: 'English', level: 'native' },
+    { name: 'French', level: 'learning' },
+  ],
 };
 
 const formatMonth = (value: string) => {

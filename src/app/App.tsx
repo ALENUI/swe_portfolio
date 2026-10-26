@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Hero } from './components/Hero';
 import { Experience } from './components/Experience';
-import { Projects } from './components/Projects';
+import { Works } from './components/Works';
 import { About } from './components/About';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
@@ -13,7 +13,7 @@ import { watchSystemTheme } from './theme';
 // Only link to sections that actually render.
 const sections: NavSection[] = [
   profile.experience.length > 0 && { id: 'experience', label: 'Experience' },
-  profile.projects.length > 0 && { id: 'projects', label: 'Projects' },
+  profile.works.length > 0 && { id: 'work', label: 'Work' },
   { id: 'about', label: 'About' },
   (profile.email || profile.socials.length > 0) && { id: 'contact', label: 'Contact' },
 ].filter((s): s is NavSection => Boolean(s));
@@ -56,7 +56,7 @@ export default function App() {
       <main id="main">
         <Hero />
         <Experience />
-        <Projects />
+        <Works />
         <About />
         <Contact />
       </main>

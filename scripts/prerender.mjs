@@ -16,7 +16,17 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const ssrDir = path.join(root, 'dist-ssr');
 
-const { render, profile } = await import(pathToFileURL(path.join(ssrDir, 'entry-server.js')).href);
+const { render, profile, content, validateContent } = await import(
+  pathToFileURL(path.join(ssrDir, 'entry-server.js')).href
+);
+
+// Refuse to publish broken content (e.g. a bad edit from /admin): the build fails
+// and the live site keeps its previous version.
+const contentErrors = validateContent(content);
+if (contentErrors.length > 0) {
+  console.error(`src/app/data/content.json is invalid:\n${contentErrors.map((e) => `  - ${e}`).join('\n')}`);
+  process.exit(1);
+}
 
 const siteUrl = (process.env.SITE_URL || profile.siteUrl).replace(/\/+$/, '');
 const pageUrl = `${siteUrl}/`;
@@ -54,7 +64,8 @@ const jsonLd = {
         addressRegion: profile.location.region,
         addressCountry: profile.location.countryCode,
       },
-      knowsAbout: [...new Set(Object.values(profile.skills).flat())],
+      knowsAbout: [...new Set(profile.skills.flatMap((g) => g.items))],
+      knowsLanguage: profile.spokenLanguages.filter((l) => l.level !== 'learning').map((l) => l.name),
       sameAs: profile.socials.map((s) => s.url),
     },
     {
@@ -122,7 +133,7 @@ await writeFile(
 
 await writeFile(
   path.join(dist, 'robots.txt'),
-  `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`,
+  `User-agent: *\nAllow: /\nDisallow: ${new URL(siteUrl).pathname.replace(/\/$/, '')}/admin/\n\nSitemap: ${siteUrl}/sitemap.xml\n`,
 );
 
 await writeFile(

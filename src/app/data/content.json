@@ -1,0 +1,210 @@
+{
+  "$comment": "Edited from /admin (or by hand). Validated at build time by src/app/data/content.ts.",
+  "experienceSummary": "Since 2024 I've worked as a front-end developer and designer for teams in Cameroon and Lebanon: building responsive web apps in React and TypeScript, integrating APIs, leading UI/UX and brand design, and running social media and content.",
+  "experience": [
+    {
+      "company": "Dream Life Holdings",
+      "companyUrl": "https://dreamlifeholdings.org",
+      "companyLocation": "Douala, Cameroon",
+      "role": "Content Creator and Social Media Manager",
+      "type": "Full-time",
+      "start": "2026",
+      "end": null,
+      "highlights": [
+        "Manage the group's social media accounts: posting, scheduling and community engagement",
+        "Plan campaigns and the content calendar across platforms",
+        "Design the visuals, from posts and flyers to short videos and reels",
+        "Produce content for the subsidiaries: Dream Life Technology, Dream Life Foundation, Dream Life Properties and ZafPay"
+      ],
+      "tech": [
+        "Social media",
+        "Content strategy",
+        "Graphic design",
+        "Video"
+      ]
+    },
+    {
+      "company": "Galsie",
+      "companyLocation": "Lebanon",
+      "role": "Front-End Developer",
+      "type": "Full-time",
+      "start": "2025-08",
+      "end": null,
+      "highlights": [
+        "Develop the Galsite web application, building its views in HTML, CSS and TypeScript",
+        "Implement the view models in TypeScript"
+      ],
+      "tech": [
+        "TypeScript",
+        "HTML",
+        "CSS"
+      ]
+    },
+    {
+      "company": "Nexura Innovations Ltd",
+      "companyLocation": "Cameroon",
+      "role": "UI/UX and Brand Design Lead",
+      "start": "2025-07",
+      "end": null,
+      "highlights": [
+        "Coordinate and supervise the design team as team lead",
+        "Conceptualize the visuals and ideas for projects",
+        "Design brands and brand elements, and the UI for web and mobile app projects"
+      ],
+      "tech": [
+        "Figma",
+        "UI/UX",
+        "Branding"
+      ]
+    },
+    {
+      "company": "DigitalSphere Inc.",
+      "companyLocation": "Cameroon",
+      "role": "Front-End Developer",
+      "type": "Full-time",
+      "start": "2024-01",
+      "end": null,
+      "highlights": [
+        "Develop responsive, dynamic web interfaces in React",
+        "Contributed to more than two dozen projects, from first concept to completion",
+        "Collaborate with the team to implement scalable, efficient solutions",
+        "Debug and optimize code to improve performance"
+      ],
+      "tech": [
+        "React",
+        "JavaScript",
+        "TypeScript"
+      ]
+    },
+    {
+      "company": "AFRIITECH",
+      "companyLocation": "Bamenda, Cameroon",
+      "role": "Front-End Developer",
+      "type": "Internship",
+      "start": "2022-07",
+      "end": "2022-08",
+      "highlights": [
+        "Designed and built interactive web components with PHP and JavaScript",
+        "Applied UI/UX design principles in Figma"
+      ],
+      "tech": [
+        "PHP",
+        "JavaScript",
+        "Figma"
+      ]
+    }
+  ],
+  "works": [
+    {
+      "title": "Thinksy",
+      "category": "Development",
+      "year": "2025",
+      "inProgress": true,
+      "summary": "A peer study platform where learners find study partners by skill, join study groups and share resources. Built so far: sign-up and login, a dashboard, profile and study-group pages, and a light/dark theme.",
+      "tags": [
+        "React",
+        "React Router",
+        "Tailwind CSS",
+        "Material UI"
+      ],
+      "links": [
+        {
+          "label": "Source code",
+          "url": "https://github.com/ALENUI/Thinksy_FE"
+        }
+      ]
+    },
+    {
+      "title": "Staff & Task Management System",
+      "category": "Development",
+      "year": "2025",
+      "inProgress": true,
+      "summary": "A PHP and MySQL system for running a small team: an admin dashboard, staff login, creating employee and intern accounts, and assigning tasks.",
+      "tags": [
+        "PHP",
+        "MySQL",
+        "Tailwind CSS"
+      ],
+      "links": [
+        {
+          "label": "Source code",
+          "url": "https://github.com/ALENUI/brandonDBMS"
+        }
+      ]
+    },
+    {
+      "title": "Brand & graphic design",
+      "category": "Design",
+      "summary": "My brand and graphic design work, published on Instagram as @alenui_graphics.",
+      "tags": [
+        "Branding",
+        "Graphic design"
+      ],
+      "links": [
+        {
+          "label": "View on Instagram",
+          "url": "https://www.instagram.com/alenui_graphics/"
+        }
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "group": "Programming",
+      "items": [
+        "TypeScript",
+        "JavaScript",
+        "PHP",
+        "Python",
+        "HTML",
+        "CSS"
+      ]
+    },
+    {
+      "group": "Front end",
+      "items": [
+        "React",
+        "React Router",
+        "Tailwind CSS",
+        "Material UI",
+        "Vite"
+      ]
+    },
+    {
+      "group": "Back end & data",
+      "items": [
+        "MySQL",
+        "REST APIs",
+        "pandas",
+        "NumPy",
+        "Jupyter"
+      ]
+    },
+    {
+      "group": "Design",
+      "items": [
+        "Figma",
+        "Adobe Photoshop",
+        "UI/UX design",
+        "Brand identity",
+        "Graphic design"
+      ]
+    },
+    {
+      "group": "Content & social",
+      "items": [
+        "Social media management",
+        "Content strategy",
+        "Video editing",
+        "CapCut"
+      ]
+    },
+    {
+      "group": "Tools",
+      "items": [
+        "Git",
+        "GitHub"
+      ]
+    }
+  ]
+}

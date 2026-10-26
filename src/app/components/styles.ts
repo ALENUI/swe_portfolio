@@ -13,3 +13,6 @@ export const chip = 'px-3 py-1 rounded-full bg-muted text-muted-foreground text-
 export const card = 'bg-card rounded-2xl border border-border p-6 md:p-8';
 
 export const textLink = 'text-primary font-medium underline-offset-4 hover:underline';
+
+export const field =
+  'w-full bg-background border border-border rounded-xl px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors disabled:opacity-60';
