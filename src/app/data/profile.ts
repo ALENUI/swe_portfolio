@@ -28,9 +28,9 @@ export const profile = {
   shortName: 'ALENUI',
   alternateNames: ['Alenui Rovis', 'ALENUI'],
   jobTitle: 'Computer Engineer',
-  headline: 'Front-end developer and UI/UX designer, from Figma frame to shipped product',
+  headline: 'Front-end developer and UI/UX designer',
   intro:
-    'I take products from a Figma frame to a fast, polished React and TypeScript app, with a data science background behind the code. I lead UI/UX and brand design at Nexura Innovations, and I like interfaces that feel effortless to use.',
+    'I design interfaces in Figma and build them as fast, responsive React and TypeScript apps, with brand identity and graphic design to match. A grounding in Python and data science means I care about how a product works as much as how it looks.',
   // ~150 characters: what search engines show under the title.
   description:
     'Alenui Rovis Mbah is a computer engineer in Bamenda, Cameroon: a front-end developer working in React and TypeScript, and a UI/UX and brand designer.',
